@@ -3,7 +3,7 @@ import { AnalyzeGithubService } from './analyze-github.service';
 
 // 定义请求体类型
 class MessageDto {
-  repoName: string;
+  description: string;
 }
 
 @Controller('analyze-github')
@@ -12,6 +12,6 @@ export class AnalyzeGithubController {
 
   @Post('message')
   async handleMessage(@Body() messageDto: MessageDto) {
-    return this.analyzeGithubService.handleMessage(messageDto.repoName);
+    return this.analyzeGithubService.handleMessage(messageDto.description);
   }
 }

@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  background: linear-gradient(to bottom, transparent, rgb(28, 28, 28))
+    rgb(23, 23, 23);
+}

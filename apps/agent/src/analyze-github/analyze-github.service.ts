@@ -34,7 +34,6 @@ export class AnalyzeGithubService {
       console.log(`Function call: ${response.functionCall.fn_name}`);
     }
 
-    console.log('response', response);
 
     return response;
   }
