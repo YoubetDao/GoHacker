@@ -1,0 +1,15 @@
+{
+  "name": "GoHacker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:agent": "cd apps/agent && pnpm run start:dev",
+    "start:web": "cd apps/web && pnpm run dev",
+    "start:all": "pnpm run start:agent && pnpm run start:web"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
