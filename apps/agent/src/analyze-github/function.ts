@@ -9,14 +9,17 @@ export const getProjectIssue = new GameFunction({
   name: 'get_project_issue',
   description: 'Get github project issue',
   args: [
-    {
-      name: 'repoName',
-      description: 'Repository name',
-    },
+    // {
+    //   name: 'repoName',
+    //   description: 'Repository name',
+    // },
   ],
   executable: async (args, logger) => {
+    const github = new Octokit({
+      auth: process.env.GITHUB_TOKEN,
+    });
     // 获取仓库的所有 issues
-    const { data: issues } = await Octokit.rest.issues.listForRepo({
+    const { data: issues } = await github.rest.issues.listForRepo({
       owner: process.env.GITHUB_REPO_OWNER,
       repo: process.env.GITHUB_REPO_NAME,
       state: 'open',
