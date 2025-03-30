@@ -1,6 +1,6 @@
-import GAMEClientV2 from "./apiV2";
-import { LLMModel } from "./interface/GameClient";
-import GameFunction, { ExecutableGameFunctionResponse } from "./function";
+import GAMEClientV2 from './apiV2';
+import { LLMModel } from './interface/GameClient';
+import GameFunction, { ExecutableGameFunctionResponse } from './function';
 
 // Type definitions
 export interface Argument {
@@ -40,8 +40,8 @@ export interface GameChatResponse {
 }
 
 export enum FunctionResultStatus {
-  DONE = "done",
-  FAILED = "failed",
+  DONE = 'done',
+  FAILED = 'failed',
 }
 
 // Main Chat class
@@ -55,7 +55,7 @@ class Chat {
     chatId: string,
     client: GAMEClientV2,
     actionSpace?: GameFunction<any>[],
-    getStateFn?: () => Record<string, any>
+    getStateFn?: () => Record<string, any>,
   ) {
     this.chatId = chatId;
     this.client = client;
@@ -73,7 +73,7 @@ class Chat {
 
     if (convoResponse.function_call) {
       if (!this.actionSpace) {
-        throw new Error("No functions provided");
+        throw new Error('No functions provided');
       }
 
       const fnName = convoResponse.function_call.fn_name;
@@ -81,18 +81,18 @@ class Chat {
 
       if (!fnToCall) {
         throw new Error(
-          `Function ${fnName}, returned by the agent, not found in action space`
+          `Function ${fnName}, returned by the agent, not found in action space`,
         );
       }
 
-      const result = await fnToCall.execute(
+      const result = await fnToCall.executable(
         convoResponse.function_call.args,
-        (msg) => console.log(msg)
+        (msg) => console.log(msg),
       );
 
       responseMessage = await this.reportFunctionResult(
         result,
-        convoResponse.function_call.id
+        convoResponse.function_call.id,
       );
       functionCallResponse = {
         fn_name: fnName,
@@ -104,7 +104,7 @@ class Chat {
         },
       };
     } else {
-      responseMessage = convoResponse.message || "";
+      responseMessage = convoResponse.message || '';
     }
 
     return {
@@ -132,7 +132,7 @@ class Chat {
 
   async reportFunctionResult(
     result: ExecutableGameFunctionResponse,
-    fnId: string
+    fnId: string,
   ): Promise<string> {
     const data = {
       fn_id: fnId,
@@ -144,7 +144,7 @@ class Chat {
 
     if (!response.message) {
       throw new Error(
-        "Agent did not return a message for the function report."
+        'Agent did not return a message for the function report.',
       );
     }
     return response.message;
@@ -161,10 +161,10 @@ export class ChatAgent {
     this._api_key = api_key;
     this.prompt = prompt;
 
-    if (api_key.startsWith("apt-")) {
+    if (api_key.startsWith('apt-')) {
       this.client = new GAMEClientV2(api_key, LLMModel.Llama_3_3_70B_Instruct);
     } else {
-      throw new Error("Please use V2 API key to use ChatAgent");
+      throw new Error('Please use V2 API key to use ChatAgent');
     }
   }
 

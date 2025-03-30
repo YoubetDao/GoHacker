@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@virtuals-protocol/game": "^0.1.11",
     "axios": "^1.8.4",
+    "octokit": "^4.1.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
