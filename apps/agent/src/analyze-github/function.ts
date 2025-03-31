@@ -310,3 +310,60 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
     }
   },
 });
+
+export const judgeProjects = new GameFunction({
+  name: 'judge_projects',
+  description: 'judge projects by github',
+  args: [],
+  executable: async (args, logger) => {
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_URL}/v1/github-repos?offset=0&limit=100`,
+      );
+      const data = await response.json();
+
+      if (data.status !== 'success') {
+        return new ExecutableGameFunctionResponse(
+          ExecutableGameFunctionStatus.Failed,
+          'Failed to judge projects',
+        );
+      }
+
+      const repos = data.data.repos;
+
+      if (repos.length === 0) {
+        return new ExecutableGameFunctionResponse(
+          ExecutableGameFunctionStatus.Failed,
+          'No projects found',
+        );
+      }
+
+      return new ExecutableGameFunctionResponse(
+        ExecutableGameFunctionStatus.Done,
+        `You are given a list of GitHub repositories in JSON format. Each object contains:
+
+      - htmlUrl: the URL of the GitHub repository
+      - fullName: the repository full name (e.g., "owner/repo")
+      - description: a short description of the project
+      - score: a numeric score representing project ranking
+
+      Please generate a Markdown-formatted list of these projects. For each project, use the following format:
+
+      ### 🔗 [<fullName>](<htmlUrl>)
+
+      **Score**: <score>  
+      **Description**: <description>
+
+      If description is missing or null, just write "No description provided."
+      Here is the data: ${JSON.stringify({ repos })}
+      `,
+      );
+    } catch (error) {
+      console.log('Original response:', error.message);
+      return new ExecutableGameFunctionResponse(
+        ExecutableGameFunctionStatus.Failed,
+        error.message,
+      );
+    }
+  },
+});
