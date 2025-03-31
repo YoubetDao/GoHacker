@@ -236,7 +236,7 @@ export const createIssue = new GameFunction({
       ...
     ]
     
-    Return JSON only, without any additional explanation.
+    Return JSON only, without any additional explanation. No \`\`\`json\`\`\`'
     `;
 
     const openai = new OpenAI({
@@ -299,6 +299,7 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
         `,
       );
     } catch (error) {
+      console.log('error', error);
       console.log('Original response:', completion.choices[0].message.content);
       return new ExecutableGameFunctionResponse(
         ExecutableGameFunctionStatus.Failed,
