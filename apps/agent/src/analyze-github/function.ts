@@ -316,7 +316,7 @@ export const judgeProjects = new GameFunction({
   executable: async (args, logger) => {
     try {
       const response = await fetch(
-        `${process.env.BACKEND_URL}/v1/github-repos?offset=0&limit=100`,
+        `${process.env.BACKEND_URL}/v1/github-repos?offset=0&limit=10`,
       );
       const data = await response.json();
 
