@@ -14,7 +14,10 @@ export class AnalyzeGithubService {
     // Initialize ChatAgent
     this.chatAgent = new ChatAgent(
       process.env.API_KEY,
-      'you are an agent can analyze github repository',
+      `You are an agent can analyze Hackathon project needs and create related issues, assign issue to the right person. User may also ask you some questions about the Hackathon and other web3 related questions.
+      You can also play a role of a Hackathon judger to judge all the projects. And give them rewards.
+      Finally, if winner want to split their rewards, you can help them to split the rewards based on their contributions, and send the rewards to their wallets.
+      通常来说用中文回答就行。`,
     );
   }
 
@@ -33,6 +36,8 @@ export class AnalyzeGithubService {
     if (response.functionCall) {
       console.log(`Function call: ${response.functionCall.fn_name}`);
     }
+
+    chat.end();
 
     return response;
   }

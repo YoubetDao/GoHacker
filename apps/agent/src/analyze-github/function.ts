@@ -9,7 +9,8 @@ import OpenAI from 'openai';
 export const getProjectIssue = new GameFunction({
   name: 'get_project_issue',
   description:
-    'Query issues from a GitHub repository and return a structured list of issues, including the following fields for each issue: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).',
+    `Query issues from a GitHub repository and return a structured list of issues, including the following fields for each issue: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).
+    本质上 issue 很可能会被视作任务，如果要返回任务，就是让你返回 issue 列表。`,
   args: [],
   executable: async (args, logger) => {
     const github = new Octokit({
@@ -101,7 +102,8 @@ export const getProjectIssue = new GameFunction({
 
 export const assignIssue = new GameFunction({
   name: 'assign_issue',
-  description: 'Assign issue to user ',
+  description:
+    'Assign issue to user. 本质上 issue 很可能会被视作任务，如果要分配任务，就是让你分配 issue。',
   args: [],
   executable: async (args, logger) => {
     // 硬编码组织成员
@@ -198,10 +200,10 @@ export const assignIssue = new GameFunction({
 export const createIssue = new GameFunction({
   name: 'create_issue',
   description:
-    'You are a professional project management expert, responsible for breaking down project requirements into clear GitHub issues',
+    'You are a professional project management expert, responsible for breaking down project requirements into clear GitHub issues. 本质上 issue 很可能会被视作任务，如果要创建任务，或者规划需求，就是让你创建 issue。',
   args: [
     {
-      name: 'description',
+      name: 'project name',
       description: 'project description',
     },
   ],
@@ -212,14 +214,14 @@ export const createIssue = new GameFunction({
     You are a professional project management expert, responsible for breaking down project requirements into clear GitHub issues.
     Based on the project description below, identify key features and break them down into appropriate tasks.
     
-    Just return 3 issues is fine. Just for demo.
+    Just return 1 issues is fine. Just for demo.
     
     Project Description:
     ${description}
     
     For each task, please provide:
     1. Title (short and clear)
-    2. Description (including objectives and acceptance criteria)
+    2. Description (including feature description, short and clear)
     3. Category (choose one from: bug, feature, documentation, enhancement)
     4. Priority (1-5, with 5 being highest)
     5. Estimated effort (1-10, with 10 being highest)
@@ -228,7 +230,7 @@ export const createIssue = new GameFunction({
     [
       {
         "title": "Implement user login functionality",
-        "description": "Create a login form with email and password fields, add validation and error handling.\\n\\nAcceptance Criteria:\\n- Form validation works\\n- Error messages are clear\\n- Successful login redirects to dashboard",
+        "description": "Create a login form with email and password fields, add validation and error handling.",
         "category": "feature",
         "priority": 5,
         "estimatedEffort": 3
@@ -236,7 +238,7 @@ export const createIssue = new GameFunction({
       ...
     ]
     
-    Return JSON only, without any additional explanation.
+    Return JSON only, without any additional explanation. No \`\`\`json\`\`\`'
     `;
 
     const openai = new OpenAI({
@@ -250,7 +252,7 @@ export const createIssue = new GameFunction({
 
     const completion = await openai.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-3.5-turbo',
+      model: process.env.OPENAI_MODEL || 'gpt-3.5-turbo',
       temperature: 0.7,
       max_tokens: 500,
     });
@@ -299,6 +301,7 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
         `,
       );
     } catch (error) {
+      console.log('error', error);
       console.log('Original response:', completion.choices[0].message.content);
       return new ExecutableGameFunctionResponse(
         ExecutableGameFunctionStatus.Failed,

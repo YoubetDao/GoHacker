@@ -19,7 +19,8 @@ function App() {
         <ProChat
           locale="en-US"
           className={styles.chat}
-          helloMessage="Chatting with the GoHacker chatbot is a breeze! Simply type your questions or requests about GitHub repositories."
+          helloMessage="恭喜您，成为被选中的孩子！您的目标是在 **ETH Hangzhou** 中夺冠，这是一场关于创意的巅峰对决。请发挥您的创意，创造出最棒的作品吧。
+          GO! Hacker! 当然，我们也会在这里给您提供所需的帮助。"
           inputAreaProps={{
             placeholder: "Send a message...",
           }}
