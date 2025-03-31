@@ -35,6 +35,8 @@ function App() {
             },
           }}
           request={async (message) => {
+            const userMessages = message.filter((msg) => msg.role === "user");
+            const latestUserMessage = userMessages[userMessages.length - 1];
             const res = await fetch(
               "http://localhost:3000/analyze-github/message",
               {
@@ -42,7 +44,9 @@ function App() {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ description: message[0].content }),
+                body: JSON.stringify({
+                  description: latestUserMessage.content,
+                }),
               }
             );
             const data = await res.json();
