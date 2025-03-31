@@ -164,8 +164,6 @@ export const assignIssue = new GameFunction({
         assignees: [developer],
       });
 
-      console.log('data >>>>', data);
-
       console.log(`Task #${issue.number} assigned to ${developer}`);
 
       assignments.push({
@@ -312,7 +310,8 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
 
 export const judgeProjects = new GameFunction({
   name: 'judge_projects',
-  description: 'judge projects by github',
+  description:
+    'You are given a list of hackathon project GitHub repositories. For each project, analyze the idea based on the description and evaluate the code quality based on the GitHub repo (e.g. activity, structure, completeness).',
   args: [],
   executable: async (args, logger) => {
     try {
