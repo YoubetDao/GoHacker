@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ChatAgent } from '../chat-agent/chatAgent';
 import {
-  assignIssue,
+  allocateIssue,
   createIssue,
   distributeReward,
   getProjectIssue,
@@ -17,9 +17,12 @@ export class AnalyzeGithubService {
       throw new Error('API_KEY is not defined');
     }
 
+    const apiKey = process.env.API_KEY;
+    const apiKey2 = process.env.API_KEY_2;
+
     // Initialize ChatAgent
     this.chatAgent = new ChatAgent(
-      process.env.API_KEY,
+      apiKey,
       `You are an agent can analyze Hackathon project needs and create related issues, assign issue to the right person. User may also ask you some questions about the Hackathon and other web3 related questions.
       You can also play a role of a Hackathon judger to judge all the projects. And give them rewards.
       Finally, if winner want to split their rewards, you can help them to split the rewards based on their contributions, and send the rewards to their wallets.
@@ -33,7 +36,7 @@ export class AnalyzeGithubService {
       partnerName: 'Chat Github',
       actionSpace: [
         getProjectIssue,
-        assignIssue,
+        allocateIssue,
         createIssue,
         distributeReward,
         judgeProjects,
