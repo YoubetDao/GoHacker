@@ -8,8 +8,7 @@ import OpenAI from 'openai';
 
 export const getProjectIssue = new GameFunction({
   name: 'get_project_issue',
-  description:
-    `Query issues from a GitHub repository and return a structured list of issues, including the following fields for each issue: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).
+  description: `Query issues from a GitHub repository and return a structured list of issues, including the following fields for each issue: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).
     本质上 issue 很可能会被视作任务，如果要返回任务，就是让你返回 issue 列表。`,
   args: [],
   executable: async (args, logger) => {
@@ -365,5 +364,80 @@ export const judgeProjects = new GameFunction({
         error.message,
       );
     }
+  },
+});
+
+// 获取项目中每个贡献者的贡献比例，然后调用合约接口进行奖励
+export const distributeReward = new GameFunction({
+  name: 'distribute_reward',
+  description:
+    "Distribute reward to a repository's contributors with the amount of reward",
+  args: [
+    {
+      name: 'repo',
+      description: 'GitHub repository URL (e.g. https://github.com/owner/repo)',
+    },
+    {
+      name: 'amount',
+      description: 'The amount of reward to distribute',
+      type: 'number',
+    },
+  ],
+  executable: async (args, logger) => {
+    const { repo, amount } = args;
+
+    // 确保 amount 是数字类型
+    const rewardAmount = Number(amount);
+    if (isNaN(rewardAmount)) {
+      throw new Error('Amount must be a valid number');
+    }
+
+    const response = await fetch(
+      `http://124.221.119.233:5200/v1/github-repos/eval-contributions?repo=${repo}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch contributor data: ${response.statusText}`,
+      );
+    }
+
+    const result = await response.json();
+
+    if (result.status !== 'success') {
+      throw new Error(
+        'Failed to fetch contributor data: API returned non-success status',
+      );
+    }
+
+    const contributors = result.data.contributors;
+    console.log('contributors', contributors);
+
+    // 计算出每个贡献者的奖励金额，放入contributors的reward字段
+    contributors.forEach((contributor) => {
+      // 将ratio从字符串转换为数字（去掉百分号并除以100）
+      const ratio = parseFloat(contributor.ratio) / 100;
+      contributor.reward = rewardAmount * ratio;
+    });
+
+    return new ExecutableGameFunctionResponse(
+      ExecutableGameFunctionStatus.Done,
+      `You are given a list of GitHub contributors in JSON format. Each contributor contains:
+
+      - login: the contributor's username
+      - contributions: the number of contributions
+      - ratio: the ratio of contributions to the total contributions (in percentage)
+      - avatarUrl: the contributor's avatar URL
+      - htmlUrl: the contributor's GitHub profile URL
+      - reward: the calculated reward amount based on contribution ratio, Unit is USDT
+
+      Here is the data: ${JSON.stringify({ contributors })}
+      `,
+    );
   },
 });
