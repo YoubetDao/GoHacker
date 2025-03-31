@@ -5,11 +5,12 @@ import {
 } from '@virtuals-protocol/game';
 import { Octokit } from 'octokit';
 import OpenAI from 'openai';
+import { SDK, SdkCtorOptions } from 'youbet-sdk';
+
 
 export const getProjectIssue = new GameFunction({
   name: 'get_project_task',
-  description:
-    `Query tasks from a GitHub repository and return a structured list of tasks, including the following fields for each task: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).`,
+  description: `Query tasks from a GitHub repository and return a structured list of tasks, including the following fields for each task: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).`,
   args: [],
   executable: async (args, logger) => {
     const github = new Octokit({
@@ -101,8 +102,7 @@ export const getProjectIssue = new GameFunction({
 
 export const allocateIssue = new GameFunction({
   name: 'allocate_task',
-  description:
-    'Allocate task to user. 分配任务给用户。',
+  description: 'Allocate task to user. 分配任务给用户。',
   args: [],
   executable: async (args, logger) => {
     // 硬编码组织成员
@@ -335,6 +335,20 @@ export const judgeProjects = new GameFunction({
           'No projects found',
         );
       }
+
+      const opSepoliaOptions: SdkCtorOptions = {
+        networkOptions: {
+          rpcUrl: 'https://sepolia.optimism.io',
+          chainId: 11155420,
+          contractAddress: '0x411d99703453e5A49a2E57d5b7B97Dc1f8E3715b',
+        },
+        chainName: 'Optimism Sepolia',
+        privateKey: process.env.YOUBET_PRIVATE_KEY,
+      };
+      
+      const youbetsdk = new SDK(opSepoliaOptions);
+
+      await youbetsdk.contract.donateToProject('957405603', '0.001');
 
       return new ExecutableGameFunctionResponse(
         ExecutableGameFunctionStatus.Done,

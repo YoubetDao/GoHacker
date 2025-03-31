@@ -31,7 +31,8 @@
     "octokit": "^4.1.2",
     "openai": "^4.90.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "youbet-sdk": "^0.0.19"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
