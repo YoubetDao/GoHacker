@@ -8,8 +8,7 @@ import OpenAI from 'openai';
 
 export const getProjectIssue = new GameFunction({
   name: 'get_project_issue',
-  description:
-    `Query issues from a GitHub repository and return a structured list of issues, including the following fields for each issue: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).
+  description: `Query issues from a GitHub repository and return a structured list of issues, including the following fields for each issue: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).
     本质上 issue 很可能会被视作任务，如果要返回任务，就是让你返回 issue 列表。`,
   args: [],
   executable: async (args, logger) => {
@@ -165,8 +164,6 @@ export const assignIssue = new GameFunction({
         assignees: [developer],
       });
 
-      console.log('data >>>>', data);
-
       console.log(`Task #${issue.number} assigned to ${developer}`);
 
       assignments.push({
@@ -313,7 +310,8 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
 
 export const judgeProjects = new GameFunction({
   name: 'judge_projects',
-  description: 'judge projects by github',
+  description:
+    'You are given a list of hackathon project GitHub repositories. For each project, analyze the idea based on the description and evaluate the code quality based on the GitHub repo (e.g. activity, structure, completeness).',
   args: [],
   executable: async (args, logger) => {
     try {
