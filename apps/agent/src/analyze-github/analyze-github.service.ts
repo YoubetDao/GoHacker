@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ChatAgent } from '../chat-agent/chatAgent';
-import { assignIssue, createIssue, getProjectIssue } from './function';
+import { assignIssue, createIssue, getProjectIssue, judgeProjects } from './function';
 
 @Injectable()
 export class AnalyzeGithubService {
@@ -22,7 +22,7 @@ export class AnalyzeGithubService {
     const chat = await this.chatAgent.createChat({
       partnerId: 'chatGithub',
       partnerName: 'Chat Github',
-      actionSpace: [getProjectIssue, assignIssue, createIssue],
+      actionSpace: [getProjectIssue, assignIssue, createIssue, judgeProjects],
     });
 
     // 发送更明确的指令，要求 AI 调用函数并传递参数
@@ -33,7 +33,6 @@ export class AnalyzeGithubService {
     if (response.functionCall) {
       console.log(`Function call: ${response.functionCall.fn_name}`);
     }
-
 
     return response;
   }
