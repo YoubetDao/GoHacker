@@ -52,6 +52,8 @@ export class AnalyzeGithubService {
       console.log(`Function call: ${response.functionCall.fn_name}`);
     }
 
+    await chat.end();
+
     return response;
   }
 }
