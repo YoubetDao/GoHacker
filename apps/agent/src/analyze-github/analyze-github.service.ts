@@ -14,7 +14,7 @@ export class AnalyzeGithubService {
     // Initialize ChatAgent
     this.chatAgent = new ChatAgent(
       process.env.API_KEY,
-      'you are an agent can analyze github repository',
+      'you are an agent can analyze github repository, assign issue to the right person, and create issue if needed. User may also ask you some questions about the Hackathon and other web3 related questions.',
     );
   }
 

@@ -201,7 +201,7 @@ export const createIssue = new GameFunction({
     'You are a professional project management expert, responsible for breaking down project requirements into clear GitHub issues',
   args: [
     {
-      name: 'description',
+      name: 'project name',
       description: 'project description',
     },
   ],
@@ -219,7 +219,7 @@ export const createIssue = new GameFunction({
     
     For each task, please provide:
     1. Title (short and clear)
-    2. Description (including objectives and acceptance criteria)
+    2. Description (including feature description, short and clear)
     3. Category (choose one from: bug, feature, documentation, enhancement)
     4. Priority (1-5, with 5 being highest)
     5. Estimated effort (1-10, with 10 being highest)
@@ -228,7 +228,7 @@ export const createIssue = new GameFunction({
     [
       {
         "title": "Implement user login functionality",
-        "description": "Create a login form with email and password fields, add validation and error handling.\\n\\nAcceptance Criteria:\\n- Form validation works\\n- Error messages are clear\\n- Successful login redirects to dashboard",
+        "description": "Create a login form with email and password fields, add validation and error handling.",
         "category": "feature",
         "priority": 5,
         "estimatedEffort": 3
@@ -250,7 +250,7 @@ export const createIssue = new GameFunction({
 
     const completion = await openai.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-3.5-turbo',
+      model: process.env.OPENAI_MODEL || 'gpt-3.5-turbo',
       temperature: 0.7,
       max_tokens: 500,
     });
