@@ -102,7 +102,7 @@ export const getProjectIssue = new GameFunction({
 
 export const allocateIssue = new GameFunction({
   name: 'allocate_task',
-  description: 'Allocate task to user. 分配任务给用户。',
+  description: 'Allocate task on GitHub to developers. 分配任务给开发者。',
   args: [],
   executable: async (args, logger) => {
     // 硬编码组织成员
@@ -211,7 +211,7 @@ export const createIssue = new GameFunction({
     You are a professional project management expert, responsible for breaking down project requirements into clear GitHub issues.
     Based on the project description below, identify key features and break them down into appropriate tasks.
     
-    Just return 1 issues is fine. Just for demo.
+    Just return 2 issues is fine. Just for demo.
     
     Project Description:
     ${description}
