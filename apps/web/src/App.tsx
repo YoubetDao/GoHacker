@@ -2,6 +2,45 @@ import { ProChat } from "@ant-design/pro-chat";
 import { GithubOutlined } from "@ant-design/icons";
 import "./App.css";
 import styles from "./index.module.less";
+import { MessageRender } from "./components/MessageRender";
+
+// 导入消息类型定义
+type HtmlMessage = {
+  type: "html";
+  content: string;
+};
+
+type ChartMessage = {
+  type: "chart";
+  title: string;
+  data: Array<{
+    key: string;
+    value: number;
+  }>;
+};
+
+// 模拟数据 - 使用类型定义确保类型正确
+const mockMessages: Array<HtmlMessage | ChartMessage> = [
+  {
+    type: "html",
+    content: "<p>这是一个 HTML 消息示例</p>",
+  },
+  {
+    type: "chart",
+    title: "项目评分分析",
+    data: [
+      { key: "创新性", value: 85 },
+      { key: "可行性", value: 90 },
+      { key: "技术难度", value: 75 },
+      { key: "完成度", value: 95 },
+      { key: "市场潜力", value: 80 },
+    ],
+  },
+  {
+    type: "html",
+    content: "<p>以上是项目的各项指标评分，总体表现优秀。</p>",
+  },
+];
 
 function App() {
   return (
@@ -25,13 +64,26 @@ function App() {
             placeholder: "Send a message...",
           }}
           chatItemRenderConfig={{
-            actionsRender: (item, defaultDom) => {
+            actionsRender: () => {
               return <></>;
             },
+
             render: (item, dom, defaultDom) => {
               if (item.originData?.role === "assistant") {
-                return <div className={styles.userMessage}>{defaultDom}</div>;
+                if (item.originData.content === "...") {
+                  return <div>{dom.avatar}</div>;
+                }
+
+                return (
+                  <div className={styles.assistantMessage}>
+                    {dom.avatar}
+                    <MessageRender
+                      messages={JSON.parse(item.originData?.content)}
+                    />
+                  </div>
+                );
               }
+              return defaultDom; // 对于非助手消息，返回原始 DOM
             },
           }}
           request={async (message) => {
@@ -51,13 +103,15 @@ function App() {
             );
             const data = await res.json();
 
-            console.log("response", data);
-
             return {
-              content: new Response(data.message),
+              content: new Response(JSON.stringify(mockMessages)),
               role: "assistant",
               id: data.functionCall?.result.action_id,
             };
+            // return {
+            //   content: new Response(JSON.stringify(mockMessages)),
+            //   role: "assistant",
+            // };
           }}
         />
 
