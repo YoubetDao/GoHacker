@@ -4,7 +4,7 @@ import {
   allocateIssue,
   createIssue,
   distributeReward,
-  judgeProjects,
+  analyzeProject,
 } from './function';
 
 @Injectable()
@@ -24,8 +24,7 @@ export class AnalyzeGithubService {
       apiKey,
       `You are an agent can analyze Hackathon project needs and create related issues, assign issue to the right person. User may also ask you some questions about the Hackathon and other web3 related questions.
       You can also play a role of a Hackathon judger to judge all the projects. And give them rewards.
-      Finally, if winner want to split their rewards, you can help them to split the rewards based on their contributions, and send the rewards to their wallets.
-      通常来说用中文回答就行。`,
+      Finally, if winner want to split their rewards, you can help them to split the rewards based on their contributions, and send the rewards to their wallets.`,
     );
   }
 
@@ -37,7 +36,7 @@ export class AnalyzeGithubService {
         allocateIssue,
         createIssue,
         distributeReward,
-        judgeProjects,
+        analyzeProject,
       ],
     });
 

@@ -308,10 +308,10 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
   },
 });
 
-export const judgeProjects = new GameFunction({
-  name: 'judge_projects',
+export const analyzeProject = new GameFunction({
+  name: 'analyze_project',
   description:
-    'You are given a list of hackathon project GitHub repositories. For each project, analyze the idea based on the description and evaluate the code quality based on the GitHub repo (e.g. activity, structure, completeness).',
+    'You are given a list of hackathon project GitHub repositories. For each project, analyze the idea based on the description and evaluate the code quality based on the GitHub repo (e.g. innovation, feasibility, technical complexity, completion, market potential).',
   args: [],
   executable: async (args, logger) => {
     try {

@@ -38,7 +38,8 @@ const mockMessages: Array<HtmlMessage | ChartMessage> = [
   },
   {
     type: "html",
-    content: "<p>Above are the project's key metrics scores. Overall performance is excellent.</p>",
+    content:
+      "<p>Above are the project's key metrics scores. Overall performance is excellent.</p>",
   },
 ];
 
@@ -72,19 +73,25 @@ For project owners, I assist in development planning by identifying suitable dev
             },
 
             render: (item, dom, defaultDom) => {
-              if (item.originData?.role === "assistant") {
+              if (item.originData?.role.includes("assistant")) {
+                console.log(item.originData.role);
+
                 if (item.originData.content === "...") {
                   return <div>{dom.avatar}</div>;
                 }
 
-                return (
-                  <div className={styles.assistantMessage}>
-                    {dom.avatar}
-                    <MessageRender
-                      messages={JSON.parse(item.originData?.content)}
-                    />
-                  </div>
-                );
+                if (item.originData.role.includes("assistant-analyzer")) {
+                  return (
+                    <div className={styles.assistantMessage}>
+                      {dom.avatar}
+                      <MessageRender
+                        messages={JSON.parse(item.originData?.content)}
+                      />
+                    </div>
+                  );
+                }
+
+                return <div className={styles.userMessage}>{defaultDom}</div>;
               }
               return defaultDom; // 对于非助手消息，返回原始 DOM
             },
@@ -106,15 +113,19 @@ For project owners, I assist in development planning by identifying suitable dev
             );
             const data = await res.json();
 
+            if (data.functionCall?.fn_name === "analyze_project") {
+              return {
+                content: new Response(JSON.stringify(mockMessages)),
+                role: "assistant-analyzer",
+                id: data.functionCall?.result.action_id,
+              };
+            }
+
             return {
-              content: new Response(JSON.stringify(mockMessages)),
+              content: new Response(data.message),
               role: "assistant",
               id: data.functionCall?.result.action_id,
             };
-            // return {
-            //   content: new Response(JSON.stringify(mockMessages)),
-            //   role: "assistant",
-            // };
           }}
         />
 
