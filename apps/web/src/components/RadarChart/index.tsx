@@ -8,7 +8,7 @@ import {
   Legend,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // 注册Chart.js所需的组件
 ChartJS.register(
@@ -32,8 +32,9 @@ interface RadarChartProps {
   options?: any;
 }
 
+
+
 export const RadarChart = ({ data, options }: RadarChartProps) => {
-  const chartRef = useRef<ChartJS>(null);
   // 添加状态来跟踪组件是否已挂载
   const [mounted, setMounted] = useState(false);
 
@@ -131,11 +132,6 @@ export const RadarChart = ({ data, options }: RadarChartProps) => {
     setMounted(true);
     
     return () => {
-      // 清理函数
-      const chart = chartRef.current;
-      if (chart) {
-        chart.destroy();
-      }
       // 组件卸载时设置 mounted 状态为 false
       setMounted(false);
     };
@@ -143,7 +139,7 @@ export const RadarChart = ({ data, options }: RadarChartProps) => {
   
   // 当数据变化时的处理
   useEffect(() => {
-    if (mounted && chartRef.current) {
+    if (mounted) {
       // 如果需要对数据变化进行特殊处理，可以在这里添加代码
     }
   }, [data, mounted]);
@@ -174,7 +170,7 @@ export const RadarChart = ({ data, options }: RadarChartProps) => {
   return (
     <div style={{ width: "100%", height: "300px", position: "relative" }}>
       {/* 只在组件挂载后才渲染雷达图 */}
-      {mounted && <Radar ref={chartRef} data={chartData} options={chartOptions} />}
+      {mounted && <Radar data={chartData} options={chartOptions} />}
     </div>
   );
 };
