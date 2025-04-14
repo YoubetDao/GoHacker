@@ -336,19 +336,19 @@ export const judgeProjects = new GameFunction({
         );
       }
 
-      const opSepoliaOptions: SdkCtorOptions = {
-        networkOptions: {
-          rpcUrl: 'https://sepolia.optimism.io',
-          chainId: 11155420,
-          contractAddress: '0x411d99703453e5A49a2E57d5b7B97Dc1f8E3715b',
-        },
-        chainName: 'Optimism Sepolia',
-        privateKey: process.env.YOUBET_PRIVATE_KEY,
-      };
+      // const opSepoliaOptions: SdkCtorOptions = {
+      //   networkOptions: {
+      //     rpcUrl: 'https://sepolia.optimism.io',
+      //     chainId: 11155420,
+      //     contractAddress: '0x411d99703453e5A49a2E57d5b7B97Dc1f8E3715b',
+      //   },
+      //   chainName: 'Optimism Sepolia',
+      //   privateKey: process.env.YOUBET_PRIVATE_KEY,
+      // };
       
-      const youbetsdk = new SDK(opSepoliaOptions);
+      // const youbetsdk = new SDK(opSepoliaOptions);
 
-      await youbetsdk.contract.donateToProject('957405603', '0.001');
+      // await youbetsdk.contract.donateToProject('957405603', '0.001');
 
       return new ExecutableGameFunctionResponse(
         ExecutableGameFunctionStatus.Done,

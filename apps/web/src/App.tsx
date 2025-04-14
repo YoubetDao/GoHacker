@@ -23,22 +23,22 @@ type ChartMessage = {
 const mockMessages: Array<HtmlMessage | ChartMessage> = [
   {
     type: "html",
-    content: "<p>这是一个 HTML 消息示例</p>",
+    content: "<p>This is an example of an HTML message</p>",
   },
   {
     type: "chart",
-    title: "项目评分分析",
+    title: "Project Score Analysis",
     data: [
-      { key: "创新性", value: 85 },
-      { key: "可行性", value: 90 },
-      { key: "技术难度", value: 75 },
-      { key: "完成度", value: 95 },
-      { key: "市场潜力", value: 80 },
+      { key: "Innovation", value: 85 },
+      { key: "Feasibility", value: 90 },
+      { key: "Technical Complexity", value: 75 },
+      { key: "Completion", value: 95 },
+      { key: "Market Potential", value: 80 },
     ],
   },
   {
     type: "html",
-    content: "<p>以上是项目的各项指标评分，总体表现优秀。</p>",
+    content: "<p>Above are the project's key metrics scores. Overall performance is excellent.</p>",
   },
 ];
 
@@ -58,8 +58,11 @@ function App() {
         <ProChat
           locale="en-US"
           className={styles.chat}
-          helloMessage="恭喜您，成为被选中的孩子！您的目标是在 **ETH Hangzhou** 中夺冠，这是一场关于创意的巅峰对决。请发挥您的创意，创造出最棒的作品吧。
-          GO! Hacker! 当然，我们也会在这里给您提供所需的帮助。"
+          helloMessage="Hello, I'm an AI-powered GitHub agent integrated with the Autonomous Crypto Payments (ACP) system. I serve as a bridge between investors and developers, offering dual perspectives:
+
+For investors, I provide technical analysis of projects from a developer's viewpoint, helping you understand the technical merit and potential of projects you're interested in.
+
+For project owners, I assist in development planning by identifying suitable developers, creating structured task breakdowns, and managing reward distributions. When your project receives donations through ACP, I ensure fair and automatic distribution of funds to all contributors based on their historical contributions."
           inputAreaProps={{
             placeholder: "Send a message...",
           }}

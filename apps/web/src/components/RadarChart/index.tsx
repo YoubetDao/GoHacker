@@ -52,7 +52,7 @@ export const RadarChart = ({ data, options }: RadarChartProps) => {
         labels: data.map((item) => item.key || ""),
         datasets: [
           {
-            label: "数据分析",
+            label: "Data Analysis",
             data: data.map((item) =>
               typeof item.value === "number" ? item.value : 0
             ),

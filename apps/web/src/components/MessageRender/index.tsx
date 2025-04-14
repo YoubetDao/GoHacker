@@ -33,7 +33,7 @@ export const MessageRender = ({ messages }: Props) => {
     
     // 显示加载消息
     message.loading({
-      content: '正在生成 PDF 文件...',
+      content: 'Generating PDF file...',
       key: 'pdfDownload',
       duration: 0,
     });
@@ -41,7 +41,7 @@ export const MessageRender = ({ messages }: Props) => {
     const element = contentRef.current;
     const opt = {
       margin: [10, 10, 10, 10],
-      filename: '项目分析报告.pdf',
+      filename: 'Project Analysis Report.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -55,15 +55,15 @@ export const MessageRender = ({ messages }: Props) => {
       .then(() => {
         // 成功后显示消息
         message.success({
-          content: 'PDF 文件已生成！',
+          content: 'PDF file has been generated!',
           key: 'pdfDownload',
           duration: 2,
         });
       })
       .catch((error: unknown) => {
-        console.error('PDF 生成错误:', error);
+        console.error('PDF generation error:', error);
         message.error({
-          content: 'PDF 生成失败，请重试',
+          content: 'PDF generation failed, please try again',
           key: 'pdfDownload',
           duration: 2,
         });
@@ -73,14 +73,14 @@ export const MessageRender = ({ messages }: Props) => {
   return (
     <div className={styles.messageContainer}>
       <div className={styles.messageHeader}>
-        <h2 className={styles.messageTitle}>项目分析报告</h2>
+        <h2 className={styles.messageTitle}>Project Analysis Report</h2>
         <Button 
           type="primary" 
           icon={<DownloadOutlined />} 
           onClick={handleDownloadPDF}
           className={styles.downloadButton}
         >
-          下载 PDF
+          Download PDF
         </Button>
       </div>
       <div className={styles.messageContent} ref={contentRef}>
