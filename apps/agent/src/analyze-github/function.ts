@@ -7,7 +7,6 @@ import { Octokit } from 'octokit';
 import OpenAI from 'openai';
 import { SDK, SdkCtorOptions } from 'youbet-sdk';
 
-
 export const getProjectIssue = new GameFunction({
   name: 'get_project_task',
   description: `Query tasks from a GitHub repository and return a structured list of tasks, including the following fields for each task: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).`,
@@ -308,8 +307,8 @@ Here is the data: ${JSON.stringify({ issues: createdIssues })}
   },
 });
 
-export const analyzeProject = new GameFunction({
-  name: 'analyze_project',
+export const listProjects = new GameFunction({
+  name: 'list_projects',
   description:
     'You are given a list of hackathon project GitHub repositories. For each project, analyze the idea based on the description and evaluate the code quality based on the GitHub repo (e.g. innovation, feasibility, technical complexity, completion, market potential).',
   args: [],
@@ -345,7 +344,7 @@ export const analyzeProject = new GameFunction({
       //   chainName: 'Optimism Sepolia',
       //   privateKey: process.env.YOUBET_PRIVATE_KEY,
       // };
-      
+
       // const youbetsdk = new SDK(opSepoliaOptions);
 
       // await youbetsdk.contract.donateToProject('957405603', '0.001');
@@ -368,6 +367,8 @@ export const analyzeProject = new GameFunction({
 
       If description is missing or null, just write "No description provided."
       Here is the data: ${JSON.stringify({ repos })}
+
+      Finally, return the all projects leaderboard - https://deepflow-hip.vercel.app/ to the user.
       `,
       );
     } catch (error) {
@@ -452,5 +453,104 @@ export const distributeReward = new GameFunction({
       Here is the data: ${JSON.stringify({ contributors })}
       `,
     );
+  },
+});
+
+export const analyzeProject = new GameFunction({
+  name: 'analyze_project',
+  description:
+    'Analyze a specific GitHub project and provide detailed metrics and evaluation.',
+  args: [
+    {
+      name: 'repo_url',
+      description: 'GitHub repository URL (e.g. https://github.com/owner/repo)',
+    },
+  ],
+  executable: async (args, logger) => {
+    const { repo_url } = args;
+
+    if (!repo_url) {
+      return new ExecutableGameFunctionResponse(
+        ExecutableGameFunctionStatus.Failed,
+        'Repo URL is required',
+      );
+    }
+
+    try {
+      console.log(repo_url);
+
+      // 获取项目列表
+      const response = await fetch(
+        `${process.env.BACKEND_URL}/v1/github-repos?offset=0&limit=10`,
+      );
+      const data = await response.json();
+
+      if (data.status !== 'success') {
+        return new ExecutableGameFunctionResponse(
+          ExecutableGameFunctionStatus.Failed,
+          'Failed to fetch projects',
+        );
+      }
+
+      const project = data.data.repos.find((repo) =>
+        repo.htmlUrl.toLowerCase().includes(repo_url.toLowerCase()),
+      );
+
+      if (!project) {
+        return new ExecutableGameFunctionResponse(
+          ExecutableGameFunctionStatus.Failed,
+          'Project not found in the list',
+        );
+      }
+
+      const analysisResult = [
+        {
+          type: 'html',
+          content: `<p><strong>Project Analysis: ${project.fullName}</strong></p>
+<p>${project.description || 'No description provided.'}</p>`,
+        },
+        {
+          type: 'chart',
+          title: 'Project Score Analysis',
+          data: [
+            {
+              key: 'Innovation',
+              value: Math.max(Math.min(Math.round(project.score * 10), 100), 0),
+            },
+            {
+              key: 'Feasibility',
+              value: Math.max(Math.min(Math.round(project.score * 9), 100), 0),
+            },
+            {
+              key: 'Technical Complexity',
+              value: Math.max(Math.min(Math.round(project.score * 8), 100), 0),
+            },
+            {
+              key: 'Completion',
+              value: Math.max(Math.min(Math.round(project.score * 6.2), 100), 0),
+            },
+            {
+              key: 'Market Potential',
+              value: Math.max(Math.min(Math.round(project.score * 8.5), 100), 0),
+            },
+          ],
+        },
+        {
+          type: 'html',
+          content: `<p><strong>Overall Analysis:</strong> The project has achieved an overall score of ${project.score.toFixed(2)} out of 10. </p>`,
+        },
+      ];
+
+      return new ExecutableGameFunctionResponse(
+        ExecutableGameFunctionStatus.Done,
+        JSON.stringify(analysisResult),
+      );
+    } catch (error) {
+      console.error('Error analyzing project:', error);
+      return new ExecutableGameFunctionResponse(
+        ExecutableGameFunctionStatus.Failed,
+        error.message,
+      );
+    }
   },
 });

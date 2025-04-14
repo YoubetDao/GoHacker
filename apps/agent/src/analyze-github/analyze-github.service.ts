@@ -5,6 +5,7 @@ import {
   createIssue,
   distributeReward,
   analyzeProject,
+  listProjects,
 } from './function';
 
 @Injectable()
@@ -37,6 +38,7 @@ export class AnalyzeGithubService {
         createIssue,
         distributeReward,
         analyzeProject,
+        listProjects,
       ],
     });
 

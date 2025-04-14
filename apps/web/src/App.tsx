@@ -19,27 +19,11 @@ type ChartMessage = {
   }>;
 };
 
-// 模拟数据 - 使用类型定义确保类型正确
-const mockMessages: Array<HtmlMessage | ChartMessage> = [
-  {
-    type: "html",
-    content: "<p>This is an example of an HTML message</p>",
-  },
-  {
-    type: "chart",
-    title: "Project Score Analysis",
-    data: [
-      { key: "Innovation", value: 85 },
-      { key: "Feasibility", value: 90 },
-      { key: "Technical Complexity", value: 75 },
-      { key: "Completion", value: 95 },
-      { key: "Market Potential", value: 80 },
-    ],
-  },
+const errorMessages: Array<HtmlMessage | ChartMessage> = [
   {
     type: "html",
     content:
-      "<p>Above are the project's key metrics scores. Overall performance is excellent.</p>",
+      "<p>Some error happened, please make sure your project is in our analyze list.</p>",
   },
 ];
 
@@ -81,12 +65,17 @@ For project owners, I assist in development planning by identifying suitable dev
                 }
 
                 if (item.originData.role.includes("assistant-analyzer")) {
+                  const parsedContent = JSON.parse(item.originData?.content);
+                  console.log("Parsed content:", parsedContent);
+                  // 添加排行榜链接
+                  parsedContent.push({
+                    type: "html",
+                    content: `<p>Check the all projects leaderboard here: <a href='https://deepflow-hip.vercel.app/' target='_blank'>Leaderboard</a></p>`,
+                  });
                   return (
                     <div className={styles.assistantMessage}>
                       {dom.avatar}
-                      <MessageRender
-                        messages={JSON.parse(item.originData?.content)}
-                      />
+                      <MessageRender messages={parsedContent} />
                     </div>
                   );
                 }
@@ -112,13 +101,23 @@ For project owners, I assist in development planning by identifying suitable dev
               }
             );
             const data = await res.json();
-
             if (data.functionCall?.fn_name === "analyze_project") {
-              return {
-                content: new Response(JSON.stringify(mockMessages)),
-                role: "assistant-analyzer",
-                id: data.functionCall?.result.action_id,
-              };
+              const feedbackMessage =
+                data.functionCall?.result.feedback_message;
+              try {
+                const parsed = JSON.parse(feedbackMessage);
+                return {
+                  content: new Response(JSON.stringify(parsed)),
+                  role: "assistant-analyzer",
+                  id: data.functionCall?.result.action_id,
+                };
+              } catch (e) {
+                return {
+                  content: new Response(JSON.stringify(errorMessages)),
+                  role: "assistant-analyzer",
+                  id: data.functionCall?.result.action_id,
+                };
+              }
             }
 
             return {
