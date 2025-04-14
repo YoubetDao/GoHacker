@@ -13,12 +13,11 @@ export class AnalyzeGithubService {
   private readonly chatAgent: ChatAgent;
 
   constructor() {
-    if (!process.env.API_KEY || !process.env.API_KEY_2) {
+    if (!process.env.API_KEY) {
       throw new Error('API_KEY is not defined');
     }
 
     const apiKey = process.env.API_KEY;
-    const apiKey2 = process.env.API_KEY_2;
 
     // Initialize ChatAgent
     this.chatAgent = new ChatAgent(

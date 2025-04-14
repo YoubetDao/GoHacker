@@ -89,7 +89,7 @@ For project owners, I assist in development planning by identifying suitable dev
             const userMessages = message.filter((msg) => msg.role === "user");
             const latestUserMessage = userMessages[userMessages.length - 1];
             const res = await fetch(
-              "http://localhost:3000/analyze-github/message",
+              `${import.meta.env.VITE_GOHACKER_URL || "http://localhost:3000"}/analyze-github/message`,
               {
                 method: "POST",
                 headers: {
