@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/api/analyze-github/message"
+  to = "http://43.130.247.176:3000/analyze-github/message"
+  status = 200
+  force = true
