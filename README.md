@@ -1,6 +1,6 @@
 # GoHacker - AI-powered GitHub Agent with ACP Integration
 
-![GoHacker Logo](https://via.placeholder.com/200x200?text=GoHacker)
+![GoHacker Project Overview](./apps/web/src/assets/readme_img.jpeg)
 
 GoHacker is an AI-powered GitHub agent integrated with the Agent Commerce Protocol (ACP) system, serving as a bridge between investors and developers in the web3 ecosystem.
 
@@ -9,51 +9,39 @@ GoHacker is an AI-powered GitHub agent integrated with the Agent Commerce Protoc
 GoHacker provides dual perspectives to serve different stakeholders in the blockchain and open-source communities:
 
 ### For Investors
+
 Technical analysis of projects from a developer's viewpoint, helping you understand the technical merit and potential of projects you're interested in.
 
 ### For Project Owners
+
 Development planning assistance by identifying suitable developers, creating structured task breakdowns, and managing reward distributions. When your project receives donations through ACP, GoHacker ensures fair and automatic distribution of funds to all contributors based on their historical contributions.
 
-## 🛠️ Technology Stack
+## 💰 Autonomous Crypto Payments (ACP)
 
-### Frontend
-- **Framework**: React 19 with TypeScript
-- **Build Tool**: Vite
-- **UI Library**: Ant Design with Pro Chat components
-- **Data Visualization**: Chart.js with react-chartjs-2
-- **PDF Generation**: html2pdf.js
-- **Styling**: Less with CSS Modules
+GoHacker leverages the innovative Autonomous Crypto Payments (ACP) system developed by Virtuals.io, which revolutionizes how open-source projects receive funding and distribute rewards.
 
-### Backend
-- **Framework**: NestJS 11
-- **Language**: TypeScript
-- **API Integration**: ChatAgent from @virtuals-protocol/game
-- **GitHub Integration**: Octokit
-- **Environment Management**: @nestjs/config
+### What is ACP?
 
-### Project Structure
-- Monorepo managed with pnpm
-- Two main applications:
-  - `apps/web`: Frontend application
-  - `apps/agent`: Backend service
+ACP is a groundbreaking protocol that enables:
 
-## 🚀 Features
+- **Autonomous Payment Flows**: Smart contracts that automatically route crypto payments to the right contributors based on their verifiable contributions to a project
+- **Contribution-Based Distribution**: Fair and transparent reward allocation using on-chain data from GitHub contributions and other verifiable sources
+- **Continuous Funding Model**: Projects can receive ongoing funding that's automatically distributed to active contributors, creating sustainable open-source ecosystems
+- **Incentive Alignment**: Aligns the incentives of funders, project owners, and contributors through transparent, merit-based reward systems
 
-### Project Analysis
-- Technical code review and assessment
-- Visualization of project metrics through radar charts
-- PDF report generation for easy sharing and archiving
+### How ACP Works with GoHacker
 
-### Development Management
-- Task breakdown and issue creation
-- Developer allocation based on skill matching
-- Reward distribution management
+1. **Contribution Tracking**: GoHacker analyzes GitHub repositories to identify and quantify individual contributions
+2. **Smart Distribution**: When a project receives funding through ACP, GoHacker's AI determines fair distribution ratios based on contribution value
+3. **Automated Payments**: Smart contracts execute payments to contributors' wallets without manual intervention
+4. **Transparent Records**: All distributions are recorded on-chain, providing complete transparency for all stakeholders
 
-### User Interface
-- Modern black-themed design
-- Intuitive chat interface
-- Interactive data visualizations
-- Downloadable PDF reports
+### Benefits of ACP Integration
+
+- **For Funders**: Confidence that funds directly reach the actual contributors who create value
+- **For Project Owners**: Reduced administrative overhead in managing contributor payments
+- **For Contributors**: Guaranteed fair compensation based on actual work, not subjective evaluations
+- **For the Ecosystem**: Creation of sustainable funding models for open-source development
 
 ## 📋 User Stories & Scenarios
 
@@ -98,12 +86,15 @@ Development planning assistance by identifying suitable developers, creating str
 ## 🔧 Installation & Setup
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - pnpm package manager
 - API keys for required services
 
 ### Environment Variables
+
 Create a `.env` file in the project root with the following variables:
+
 ```
 API_KEY=your_virtuals_protocol_api_key
 OPENAI_API_KEY=your_openai_api_key
@@ -114,6 +105,7 @@ VITE_GOHACKER_URL=your_backend_url
 ```
 
 ### Installation
+
 ```bash
 # Install dependencies
 pnpm install
@@ -130,12 +122,14 @@ pnpm --filter agent build
 ## 🌐 Deployment
 
 ### Backend Deployment
+
 1. Build the NestJS application
 2. Set up environment variables on your server
 3. Use PM2 for process management
 4. Configure Nginx as a reverse proxy (optional)
 
 ### Frontend Deployment
+
 1. Build the React application
 2. Deploy to Netlify, Vercel, or your preferred hosting service
 3. Configure environment variables in your hosting platform
