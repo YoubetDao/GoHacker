@@ -2,7 +2,7 @@
 
 ![GoHacker Project Overview](./apps/web/src/assets/readme_img.jpeg)
 
-GoHacker is an AI-powered GitHub agent integrated with the Agent Commerce Protocol (ACP), serving as a bridge between investors and developers in the web3 ecosystem.
+GoHacker is an AI-powered GitHub agent integrated with the Agent Commerce Protocol (ACP) system, serving as a bridge between investors and developers in the web3 ecosystem.
 
 ## 🌟 Overview
 
