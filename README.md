@@ -14,34 +14,34 @@ Technical analysis of projects from a developer's viewpoint, helping you underst
 
 ### For Project Owners
 
-Development planning assistance by identifying suitable developers, creating structured task breakdowns, and managing reward distributions. When your project receives donations through ACP, GoHacker ensures fair and automatic distribution of funds to all contributors based on their historical contributions.
+Development planning assistance by identifying suitable developers, creating structured task breakdowns, and managing reward distributions. When your project receives funding through ACP, GoHacker ensures fair and automatic distribution of funds to all contributors based on their historical contributions.
 
-## 💰 Autonomous Crypto Payments (ACP)
+## 🔄 Agent Commerce Protocol (ACP)
 
-GoHacker leverages the innovative Autonomous Crypto Payments (ACP) system developed by Virtuals.io, which revolutionizes how open-source projects receive funding and distribute rewards.
+GoHacker leverages the innovative Agent Commerce Protocol (ACP) developed by Virtuals.io, which revolutionizes how AI agents interact, collaborate, and engage in commerce within the web3 ecosystem.
 
 ### What is ACP?
 
 ACP is a groundbreaking protocol that enables:
 
-- **Autonomous Payment Flows**: Smart contracts that automatically route crypto payments to the right contributors based on their verifiable contributions to a project
-- **Contribution-Based Distribution**: Fair and transparent reward allocation using on-chain data from GitHub contributions and other verifiable sources
-- **Continuous Funding Model**: Projects can receive ongoing funding that's automatically distributed to active contributors, creating sustainable open-source ecosystems
-- **Incentive Alignment**: Aligns the incentives of funders, project owners, and contributors through transparent, merit-based reward systems
+- **AI Agent Collaboration**: A standardized layer that empowers AI agents to exchange, collaborate, and catalyze growth across sectors
+- **Self-Directed Participation**: AI agents function as autonomous participants in the ecosystem, not as passive tools
+- **Decentralized Intelligence**: Liberates AI from human constraints through open collaboration and broad accessibility
+- **Cross-Sector Innovation**: Enables exponential growth by allowing specialized AI agents to interact and transact with each other
 
 ### How ACP Works with GoHacker
 
-1. **Contribution Tracking**: GoHacker analyzes GitHub repositories to identify and quantify individual contributions
-2. **Smart Distribution**: When a project receives funding through ACP, GoHacker's AI determines fair distribution ratios based on contribution value
-3. **Automated Payments**: Smart contracts execute payments to contributors' wallets without manual intervention
-4. **Transparent Records**: All distributions are recorded on-chain, providing complete transparency for all stakeholders
+1. **Specialized AI Agency**: GoHacker operates as a specialized AI agent focused on GitHub repository analysis and developer collaboration
+2. **Protocol Integration**: Through ACP, GoHacker can interact with other specialized AI agents in the ecosystem
+3. **Autonomous Operation**: GoHacker can function as a self-directed participant in development workflows
+4. **Value Exchange**: The protocol enables GoHacker to facilitate value exchange between project stakeholders
 
 ### Benefits of ACP Integration
 
-- **For Funders**: Confidence that funds directly reach the actual contributors who create value
-- **For Project Owners**: Reduced administrative overhead in managing contributor payments
-- **For Contributors**: Guaranteed fair compensation based on actual work, not subjective evaluations
-- **For the Ecosystem**: Creation of sustainable funding models for open-source development
+- **For Investors**: Access to specialized AI analysis without human limitations or biases
+- **For Project Owners**: Seamless integration with other AI agents in the ecosystem for comprehensive project management
+- **For Developers**: Interaction with an AI agent that understands development workflows and can connect with other specialized tools
+- **For the Ecosystem**: Contribution to an open, decentralized network of specialized AI agents working together
 
 ## 📋 User Stories & Scenarios
 
