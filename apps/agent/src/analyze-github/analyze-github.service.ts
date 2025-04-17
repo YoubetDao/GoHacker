@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ChatAgent } from '../chat-agent/chatAgent';
 import {
-  allocateIssue,
-  createIssue,
   distributeReward,
   analyzeProject,
   listProjects,
+  createTasks,
+  allocateTasks,
 } from './function';
 
 @Injectable()
@@ -46,8 +46,8 @@ Let me know how I can assist you with project analysis, development planning, or
       partnerId: 'chatGithub',
       partnerName: 'Chat Github',
       actionSpace: [
-        allocateIssue,
-        createIssue,
+        allocateTasks,
+        createTasks,
         distributeReward,
         analyzeProject,
         listProjects,

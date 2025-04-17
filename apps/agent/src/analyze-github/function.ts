@@ -8,7 +8,7 @@ import OpenAI from 'openai';
 import { SDK, SdkCtorOptions } from 'youbet-sdk';
 
 export const getProjectIssue = new GameFunction({
-  name: 'get_project_task',
+  name: 'get_tasks',
   description: `Query tasks from a GitHub repository and return a structured list of tasks, including the following fields for each task: title, status (open or closed), category (e.g., bug, enhancement), and assignee (username or null if unassigned).`,
   args: [],
   executable: async (args, logger) => {
@@ -99,9 +99,9 @@ export const getProjectIssue = new GameFunction({
   },
 });
 
-export const allocateIssue = new GameFunction({
-  name: 'allocate_task',
-  description: 'Allocate task on GitHub to developers. 分配任务给开发者。',
+export const allocateTasks = new GameFunction({
+  name: 'allocate_tasks',
+  description: 'Allocate tasks on GitHub to developers.',
   args: [],
   executable: async (args, logger) => {
     // 硬编码组织成员
@@ -193,8 +193,8 @@ export const allocateIssue = new GameFunction({
   },
 });
 
-export const createIssue = new GameFunction({
-  name: 'create_task',
+export const createTasks = new GameFunction({
+  name: 'create_tasks',
   description:
     'You are a professional project management expert, responsible for breaking down project requirements into clear GitHub tasks.',
   args: [
@@ -375,7 +375,7 @@ export const distributeReward = new GameFunction({
   args: [
     {
       name: 'repo',
-      description: 'GitHub repository URL (e.g. https://github.com/owner/repo)',
+      description: 'GitHub repository URL (e.g. owner/repo)',
     },
     {
       name: 'amount',
@@ -392,8 +392,9 @@ export const distributeReward = new GameFunction({
       throw new Error('Amount must be a valid number');
     }
 
+    console.log(repo, amount);
     const response = await fetch(
-      `http://124.221.119.233:5200/v1/github-repos/eval-contributions?repo=${repo}`,
+      `${process.env.BACKEND_URL}/v1/github-repos/eval-contributions?repo=${repo}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -434,7 +435,7 @@ export const distributeReward = new GameFunction({
       - ratio: the ratio of contributions to the total contributions (in percentage)
       - avatarUrl: the contributor's avatar URL
       - htmlUrl: the contributor's GitHub profile URL
-      - reward: the calculated reward amount based on contribution ratio, Unit is USDT
+      - reward: the calculated reward amount based on contribution ratio, Unit is ETH
 
       Here is the data: ${JSON.stringify({ contributors })}
       `,
