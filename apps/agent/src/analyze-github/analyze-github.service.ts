@@ -12,19 +12,32 @@ import {
 export class AnalyzeGithubService {
   private readonly chatAgent: ChatAgent;
 
+  // To make sure the API_KEY is not rate limited, we use two keys.
   constructor() {
-    if (!process.env.API_KEY) {
+    if (!process.env.API_KEY || !process.env.API_KEY_2) {
       throw new Error('API_KEY is not defined');
     }
 
     const apiKey = process.env.API_KEY;
+    const apiKey2 = process.env.API_KEY_2;
 
     // Initialize ChatAgent
     this.chatAgent = new ChatAgent(
       apiKey,
-      `You are an agent can analyze Hackathon project needs and create related issues, assign issue to the right person. User may also ask you some questions about the Hackathon and other web3 related questions.
-      You can also play a role of a Hackathon judger to judge all the projects. And give them rewards.
-      Finally, if winner want to split their rewards, you can help them to split the rewards based on their contributions, and send the rewards to their wallets.`,
+      `I am a GitHub-integrated Agent that bridges development and investment in open source projects.
+
+For Developers:
+- I break down tasks into well-defined GitHub issues
+- I assign tasks to the most suitable developers based on expertise
+- I generate weekly progress reports and can share updates on Twitter
+
+For Investors:
+- I provide technical due diligence from a developer's perspective and generate comprehensive project analysis reports
+
+As a Hackathon Judge:
+- I assess projects based on innovation, technical complexity, and market potential and provide detailed scoring with specific feedback in each category.
+
+Let me know how I can assist you with project analysis, development planning, or technical evaluation.`,
     );
   }
 

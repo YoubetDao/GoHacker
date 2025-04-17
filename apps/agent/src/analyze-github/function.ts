@@ -335,20 +335,6 @@ export const listProjects = new GameFunction({
         );
       }
 
-      // const opSepoliaOptions: SdkCtorOptions = {
-      //   networkOptions: {
-      //     rpcUrl: 'https://sepolia.optimism.io',
-      //     chainId: 11155420,
-      //     contractAddress: '0x411d99703453e5A49a2E57d5b7B97Dc1f8E3715b',
-      //   },
-      //   chainName: 'Optimism Sepolia',
-      //   privateKey: process.env.YOUBET_PRIVATE_KEY,
-      // };
-
-      // const youbetsdk = new SDK(opSepoliaOptions);
-
-      // await youbetsdk.contract.donateToProject('957405603', '0.001');
-
       return new ExecutableGameFunctionResponse(
         ExecutableGameFunctionStatus.Done,
         `You are given a list of GitHub repositories in JSON format. Each object contains:
@@ -503,6 +489,20 @@ export const analyzeProject = new GameFunction({
         );
       }
 
+      const bscTestOptions: SdkCtorOptions = {
+        networkOptions: {
+          rpcUrl: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
+          chainId: 97,
+          contractAddress: '0xc6647115c584C45fB895124A41862123C0457859',
+        },
+        chainName: 'bsc-test',
+        privateKey: process.env.YOUBET_PRIVATE_KEY,
+      };
+
+      const youbetsdk = new SDK(bscTestOptions);
+
+      await youbetsdk.contract.donateToProject('957405603', '0.001');
+
       const analysisResult = [
         {
           type: 'html',
@@ -527,11 +527,17 @@ export const analyzeProject = new GameFunction({
             },
             {
               key: 'Completion',
-              value: Math.max(Math.min(Math.round(project.score * 6.2), 100), 0),
+              value: Math.max(
+                Math.min(Math.round(project.score * 6.2), 100),
+                0,
+              ),
             },
             {
               key: 'Market Potential',
-              value: Math.max(Math.min(Math.round(project.score * 8.5), 100), 0),
+              value: Math.max(
+                Math.min(Math.round(project.score * 8.5), 100),
+                0,
+              ),
             },
           ],
         },

@@ -43,7 +43,7 @@ function App() {
         <ProChat
           locale="en-US"
           className={styles.chat}
-          helloMessage="Hello, I'm an AI-powered GitHub agent integrated with the Autonomous Crypto Payments (ACP) system. I serve as a bridge between investors and developers, offering dual perspectives:
+          helloMessage="Hello, I'm an AI-powered GitHub agent integrated with the Agent Commercial Protocol (ACP) system. I serve as a bridge between investors and developers, offering dual perspectives:
 
 For investors, I provide technical analysis of projects from a developer's viewpoint, helping you understand the technical merit and potential of projects you're interested in.
 
