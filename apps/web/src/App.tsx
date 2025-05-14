@@ -43,11 +43,9 @@ function App() {
         <ProChat
           locale="en-US"
           className={styles.chat}
-          helloMessage="Hello, I'm an AI-powered GitHub agent integrated with the Agent Commercial Protocol (ACP) system. I serve as a bridge between investors and developers, offering dual perspectives:
-
-For investors, I provide technical analysis of projects from a developer's viewpoint, helping you understand the technical merit and potential of projects you're interested in.
-
-For project owners, I assist in development planning by identifying suitable developers, creating structured task breakdowns, and managing reward distributions. When your project receives donations through ACP, I ensure fair and automatic distribution of funds to all contributors based on their historical contributions."
+          helloMessage="Hello! I’m an AI-powered GitHub agent built by [wfnuser](https://x.com/wfnuser).
+	•	For investors: I offer technical insights into open-source projects to help evaluate their real potential.
+	•	For project owners: I assist with developer matching, task planning, and fair reward distribution based on contribution history.."
           inputAreaProps={{
             placeholder: "Send a message...",
           }}
@@ -88,18 +86,15 @@ For project owners, I assist in development planning by identifying suitable dev
           request={async (message) => {
             const userMessages = message.filter((msg) => msg.role === "user");
             const latestUserMessage = userMessages[userMessages.length - 1];
-            const res = await fetch(
-              `/api/analyze-github/message`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  description: latestUserMessage.content,
-                }),
-              }
-            );
+            const res = await fetch(`/api/analyze-github/message`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                description: latestUserMessage.content,
+              }),
+            });
             const data = await res.json();
             if (data.functionCall?.fn_name === "analyze_project") {
               const feedbackMessage =
@@ -130,7 +125,10 @@ For project owners, I assist in development planning by identifying suitable dev
 
         <div className={styles.chatFooter}>
           <span className={styles.poweredBy}>
-            Powered by <strong>YoubetDAO</strong>
+            Supported by{" "}
+            <a href="https://according.work" target="_blank">
+              According.Work
+            </a>
           </span>
         </div>
       </div>

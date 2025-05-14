@@ -254,9 +254,16 @@ export const createTasks = new GameFunction({
     });
 
     try {
-      const content = completion.choices[0].message.content;
+      const content_text = completion.choices[0].message.content;
+      if (!content_text) {
+        throw new Error("No content generated from OpenAI");
+      }
 
-      const tasks = JSON.parse(content || '[]');
+      const clean_content_text = content_text
+        .replace('```json', '')
+        .replace('```', '');
+
+      const tasks = JSON.parse(clean_content_text || '[]');
 
       const createdIssues: any = [];
 
@@ -278,8 +285,6 @@ export const createTasks = new GameFunction({
         );
         createdIssues.push(issue.data);
       }
-
-      console.log('Created issues:', createdIssues);
 
       return new ExecutableGameFunctionResponse(
         ExecutableGameFunctionStatus.Done,
@@ -426,6 +431,20 @@ export const distributeReward = new GameFunction({
       contributor.reward = rewardAmount * ratio;
     });
 
+    const baseSepoliaOptions: SdkCtorOptions = {
+      networkOptions: {
+        rpcUrl: 'https://sepolia.base.org',
+        chainId: 84532,
+        contractAddress: '0x009B2B2509d08f4Ed860b2f528ef2166bBE33D00',
+      },
+      chainName: 'Base Sepolia',
+      privateKey: process.env.YOUBET_PRIVATE_KEY,
+    };
+
+    const youbetsdk = new SDK(baseSepoliaOptions);
+
+    await youbetsdk.contract.donateToProject('957405603', '0.0033');
+
     return new ExecutableGameFunctionResponse(
       ExecutableGameFunctionStatus.Done,
       `You are given a list of GitHub contributors in JSON format. Each contributor contains:
@@ -489,20 +508,6 @@ export const analyzeProject = new GameFunction({
           'Project not found in the list',
         );
       }
-
-      const bscTestOptions: SdkCtorOptions = {
-        networkOptions: {
-          rpcUrl: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
-          chainId: 97,
-          contractAddress: '0xc6647115c584C45fB895124A41862123C0457859',
-        },
-        chainName: 'bsc-test',
-        privateKey: process.env.YOUBET_PRIVATE_KEY,
-      };
-
-      const youbetsdk = new SDK(bscTestOptions);
-
-      await youbetsdk.contract.donateToProject('957405603', '0.001');
 
       const analysisResult = [
         {
